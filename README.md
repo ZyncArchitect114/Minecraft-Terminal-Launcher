@@ -1,2 +1,3 @@
 # Minecraft-Terminal-Launcher
-a small launcher in terminal
+a small Minecraft launcher.Run in the terminal
+need python 3.4+
