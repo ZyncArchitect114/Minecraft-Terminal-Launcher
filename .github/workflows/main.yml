@@ -1,17 +1,205 @@
-name: Build Windows EXE x64
-on: [push]
+name: Build All Platforms
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: '3.12'
 
 jobs:
-  build:
+  # ============================================================
+  # Linux x64
+  # ============================================================
+  linux-x64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install nuitka zstandard minecraft_launcher_lib
+
+      - name: Build
+        run: |
+          python -m nuitka \
+            --mode=onefile \
+            --follow-imports \
+            --assume-yes-for-downloads \
+            --include-package-data=minecraft_launcher_lib \
+            --output-filename=Minecraft_Terminal_Launcher-0.0.1-linux-x64 \
+            main.py
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Minecraft_Terminal_Launcher
+          path: Minecraft_Terminal_Launcher-0.0.1-linux-x64
+
+  # ============================================================
+  # Linux ARM64
+  # ============================================================
+  linux-arm64:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install nuitka zstandard minecraft_launcher_lib
+
+      - name: Build
+        run: |
+          python -m nuitka \
+            --mode=onefile \
+            --follow-imports \
+            --assume-yes-for-downloads \
+            --include-package-data=minecraft_launcher_lib \
+            --output-filename=Minecraft_Terminal_Launcher-0.0.1-linux-arm64 \
+            main.py
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Minecraft_Terminal_Launcher
+          path: Minecraft_Terminal_Launcher-0.0.1-linux-arm64
+
+  # ============================================================
+  # Linux x86 (32-bit) — via i386 container
+  # ============================================================
+  linux-x86:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build in i386 container
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/workspace \
+            -w /workspace \
+            i386/ubuntu:22.04 \
+            bash -c '
+              apt-get update && \
+              apt-get install -y python3.12 python3.12-venv python3-pip patchelf gcc && \
+              python3.12 -m venv .venv && \
+              . .venv/bin/activate && \
+              pip install -U pip nuitka zstandard minecraft_launcher_lib && \
+              python -m nuitka \
+                --mode=onefile \
+                --follow-imports \
+                --assume-yes-for-downloads \
+                --include-package-data=minecraft_launcher_lib \
+                --output-filename=Minecraft_Terminal_Launcher-0.0.1-linux-x86 \
+                main.py
+            '
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Minecraft_Terminal_Launcher
+          path: Minecraft_Terminal_Launcher-0.0.1-linux-x86
+
+  # ============================================================
+  # Windows x64
+  # ============================================================
+  windows-x64:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-      - run: pip install nuitka zstandard minecraft-launcher-lib
-      - run: python -m nuitka --standalone --assume-yes-for-downloads --onefile --include-package-data=minecraft_launcher_lib --follow-imports main.py
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install nuitka zstandard minecraft_launcher_lib
+
+      - name: Build
+        run: |
+          python -m nuitka `
+            --mode=onefile `
+            --follow-imports `
+            --assume-yes-for-downloads `
+            --include-package-data=minecraft_launcher_lib `
+            --output-filename=Minecraft_Terminal_Launcher-0.0.1-windows-amd64.exe `
+            main.py
+
       - uses: actions/upload-artifact@v4
         with:
           name: Minecraft_Terminal_Launcher
           path: Minecraft_Terminal_Launcher-0.0.1-windows-amd64.exe
+
+  # ============================================================
+  # Windows ARM64
+  # ============================================================
+  windows-arm64:
+    runs-on: windows-11-arm
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install nuitka zstandard minecraft_launcher_lib
+
+      - name: Build
+        run: |
+          python -m nuitka `
+            --mode=onefile `
+            --follow-imports `
+            --assume-yes-for-downloads `
+            --include-package-data=minecraft_launcher_lib `
+            --output-filename=Minecraft_Terminal_Launcher-0.0.1-windows-arm64.exe `
+            main.py
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Minecraft_Terminal_Launcher
+          path: Minecraft_Terminal_Launcher-0.0.1-windows-arm64.exe
+
+  # ============================================================
+  # Windows x86 (32-bit)
+  # ============================================================
+  windows-x86:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          architecture: x86
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install nuitka zstandard minecraft_launcher_lib
+
+      - name: Build
+        run: |
+          python -m nuitka `
+            --mode=onefile `
+            --follow-imports `
+            --assume-yes-for-downloads `
+            --include-package-data=minecraft_launcher_lib `
+            --output-filename=Minecraft_Terminal_Launcher-0.0.1-windows-x86.exe `
+            main.py
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Minecraft_Terminal_Launcher
+          path: Minecraft_Terminal_Launcher-0.0.1-windows-x86.exe
