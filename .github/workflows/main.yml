@@ -14,4 +14,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: Minecraft_Terminal_Launcher
-          path: myapp.exe
+          path: Minecraft_Terminal_Launcher-0.0.1-windows-amd64.exe
