@@ -10,7 +10,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install nuitka zstandard
-      - run: python -m nuitka --standalone --mode=onefile --include-package-data=minecraft_launcher_lib --follow-imports main.py
+      - run: python -m nuitka --standalone --onefile --include-package-data=minecraft_launcher_lib --follow-imports main.py
       - uses: actions/upload-artifact@v4
         with:
           name: Minecraft_Terminal_Launcher
