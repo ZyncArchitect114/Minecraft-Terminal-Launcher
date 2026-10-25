@@ -86,11 +86,11 @@ jobs:
           docker run --rm \
             -v ${{ github.workspace }}:/workspace \
             -w /workspace \
-            i386/ubuntu:22.04 \
+            i386/debian:bookworm \
             bash -c '
               apt-get update && \
-              apt-get install -y python3.12 python3.12-venv python3-pip patchelf gcc && \
-              python3.12 -m venv .venv && \
+              apt-get install -y python3 python3-venv python3-pip patchelf gcc && \
+              python3 -m venv .venv && \
               . .venv/bin/activate && \
               pip install -U pip nuitka zstandard minecraft_launcher_lib && \
               python -m nuitka \
