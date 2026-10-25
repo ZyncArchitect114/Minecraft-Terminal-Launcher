@@ -34,13 +34,13 @@ jobs:
             --follow-imports \
             --assume-yes-for-downloads \
             --include-package-data=minecraft_launcher_lib \
-            --output-filename=Minecraft_Terminal_Launcher-${{ env.VERSION }}-linux-x64.bin \
+            --output-filename=Minecraft_Terminal_Launcher \
             main.py
 
       - name: Package tar.gz
         run: |
           tar -czvf Minecraft_Terminal_Launcher-${{ env.VERSION }}-linux-x64.tar.gz \
-            Minecraft_Terminal_Launcher-${{ env.VERSION }}-linux-x64.bin
+            Minecraft_Terminal_Launcher
 
       - uses: actions/upload-artifact@v4
         with:
@@ -71,13 +71,13 @@ jobs:
             --follow-imports \
             --assume-yes-for-downloads \
             --include-package-data=minecraft_launcher_lib \
-            --output-filename=Minecraft_Terminal_Launcher-${{ env.VERSION }}-linux-arm64.bin \
+            --output-filename=Minecraft_Terminal_Launcher \
             main.py
 
       - name: Package tar.gz
         run: |
           tar -czvf Minecraft_Terminal_Launcher-${{ env.VERSION }}-linux-arm64.tar.gz \
-            Minecraft_Terminal_Launcher-${{ env.VERSION }}-linux-arm64.bin
+            Minecraft_Terminal_Launcher
 
       - uses: actions/upload-artifact@v4
         with:
@@ -109,10 +109,10 @@ jobs:
                 --follow-imports \
                 --assume-yes-for-downloads \
                 --include-package-data=minecraft_launcher_lib \
-                --output-filename=Minecraft_Terminal_Launcher-${{ env.VERSION }}-linux-x86.bin \
+                --output-filename=Minecraft_Terminal_Launcher \
                 main.py && \
               tar -czvf Minecraft_Terminal_Launcher-${{ env.VERSION }}-linux-x86.tar.gz \
-                Minecraft_Terminal_Launcher-${{ env.VERSION }}-linux-x86.bin
+                Minecraft_Terminal_Launcher
             '
 
       - uses: actions/upload-artifact@v4
@@ -144,13 +144,13 @@ jobs:
             --follow-imports `
             --assume-yes-for-downloads `
             --include-package-data=minecraft_launcher_lib `
-            --output-filename=Minecraft_Terminal_Launcher-${{ env.VERSION }}-windows-amd64.exe `
+            --output-filename=Minecraft_Terminal_Launcher.exe `
             main.py
 
       - name: Package tar.gz
         run: |
           tar -czvf Minecraft_Terminal_Launcher-${{ env.VERSION }}-windows-amd64.tar.gz `
-            Minecraft_Terminal_Launcher-${{ env.VERSION }}-windows-amd64.exe
+            Minecraft_Terminal_Launcher.exe
 
       - uses: actions/upload-artifact@v4
         with:
@@ -181,13 +181,13 @@ jobs:
             --follow-imports `
             --assume-yes-for-downloads `
             --include-package-data=minecraft_launcher_lib `
-            --output-filename=Minecraft_Terminal_Launcher-${{ env.VERSION }}-windows-arm64.exe `
+            --output-filename=Minecraft_Terminal_Launcher.exe `
             main.py
 
       - name: Package tar.gz
         run: |
           tar -czvf Minecraft_Terminal_Launcher-${{ env.VERSION }}-windows-arm64.tar.gz `
-            Minecraft_Terminal_Launcher-${{ env.VERSION }}-windows-arm64.exe
+            Minecraft_Terminal_Launcher.exe
 
       - uses: actions/upload-artifact@v4
         with:
@@ -219,13 +219,13 @@ jobs:
             --follow-imports `
             --assume-yes-for-downloads `
             --include-package-data=minecraft_launcher_lib `
-            --output-filename=Minecraft_Terminal_Launcher-${{ env.VERSION }}-windows-x86.exe `
+            --output-filename=Minecraft_Terminal_Launcher.exe `
             main.py
 
       - name: Package tar.gz
         run: |
           tar -czvf Minecraft_Terminal_Launcher-${{ env.VERSION }}-windows-x86.tar.gz `
-            Minecraft_Terminal_Launcher-${{ env.VERSION }}-windows-x86.exe
+            Minecraft_Terminal_Launcher.exe
 
       - uses: actions/upload-artifact@v4
         with:
