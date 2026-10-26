@@ -13,7 +13,7 @@ import minecraft_launcher_lib
 from pathlib import Path
 
 # ---------- constants ----------
-VER = "Minecraft Terminal Launcher 0.0.3"
+VER = "Minecraft Terminal Launcher 0.0.1"
 PLATFORM = platform.system()
 
 BASE_DIR = Path.cwd()
