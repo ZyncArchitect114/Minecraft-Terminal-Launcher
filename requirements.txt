@@ -1,0 +1,8 @@
+certifi==2026.7.22
+charset-normalizer==3.5.2
+idna==3.20
+minecraft-launcher-lib==8.0
+packaging==26.3
+pillow==13.0.0
+requests==2.34.2
+urllib3==2.8.0
